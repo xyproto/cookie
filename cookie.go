@@ -17,7 +17,10 @@ import (
 )
 
 const (
-	defaultCookieTime = 3600 * 24 // Login cookies should last for 24 hours, by default
+	// Version number. Stable API within major version numbers.
+	Version = 1.0
+
+	DefaultCookieTime = 3600 * 24 // Login cookies should last for 24 hours, by default
 )
 
 // Get a secure cookie from a HTTP request
