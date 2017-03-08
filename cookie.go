@@ -1,6 +1,6 @@
 package cookie
 
-// Thanks to web.go (https://github.com/hoisie/web) for several of these functions
+// Thanks to @hoisie / [web.go](https://github.com/hoisie/web) for several of these functions
 
 import (
 	"bytes"
@@ -18,7 +18,7 @@ import (
 
 const (
 	// Version number. Stable API within major version numbers.
-	Version = 1.0
+	Version = 2.0
 
 	DefaultCookieTime = 3600 * 24 // Login cookies should last for 24 hours, by default
 )
@@ -76,7 +76,7 @@ func SetCookiePath(w http.ResponseWriter, name, value string, age int64, path st
 // Clear the given cookie name, with a corresponding path
 // Note that browsers *may* be configured to not delete the cookie.
 func ClearCookie(w http.ResponseWriter, cookieName, cookiePath string) {
-	ignoredContent := "BLUBLU" // random string
+	ignoredContent := "SNUSNU" // random string
 	cookie := fmt.Sprintf("%s=%s; path=%s; expires=Thu, 01 Jan 1970 00:00:00 GMT", cookieName, ignoredContent, cookiePath)
 	SetHeader(w, "Set-Cookie", cookie, true)
 }
