@@ -2,6 +2,13 @@
 
 Functions related to cookies.
 
+Used by:
+
+[permissionbolt](https://github.com/xyproto/permissionbolt)
+[permissionhstore](https://github.com/xyproto/permissionhstore)
+[permissions2](https://github.com/xyproto/permissions2)
+[permissionsql](https://github.com/xyproto/permissionsql)
+
 General information
 -------------------
 
