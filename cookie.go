@@ -20,10 +20,11 @@ const (
 	// Version number. Stable API within major version numbers.
 	Version = 2.0
 
-	DefaultCookieTime = 3600 * 24 // Login cookies should last for 24 hours, by default
+	// DefaultCookieTime represent how long login cookies should last, by deafault
+	DefaultCookieTime = 24 * 3600 // 24 hours
 )
 
-// Get a secure cookie from a HTTP request
+// SecureCookie retrieves a secure cookie from a HTTP request
 func SecureCookie(req *http.Request, name string, cookieSecret string) (string, bool) {
 	for _, cookie := range req.Cookies() {
 		if cookie.Name != name {
@@ -39,9 +40,9 @@ func SecureCookie(req *http.Request, name string, cookieSecret string) (string, 
 
 		val := parts[0]
 		timestamp := parts[1]
-		sig := parts[2]
+		signature := parts[2]
 
-		if CookieSig(cookieSecret, []byte(val), timestamp) != sig {
+		if Signature(cookieSecret, []byte(val), timestamp) != signature {
 			return "", false
 		}
 
@@ -59,7 +60,7 @@ func SecureCookie(req *http.Request, name string, cookieSecret string) (string, 
 	return "", false
 }
 
-// Set a cookie with an explicit path.
+// SetCookiePath sets a cookie with an explicit path.
 // age is the time-to-live, in seconds (0 means forever).
 func SetCookiePath(w http.ResponseWriter, name, value string, age int64, path string) {
 	var utctime time.Time
@@ -73,7 +74,8 @@ func SetCookiePath(w http.ResponseWriter, name, value string, age int64, path st
 	SetHeader(w, "Set-Cookie", cookie.String(), false)
 }
 
-// Clear the given cookie name, with a corresponding path
+// ClearCookie clears the cookie with the given cookie name and a corresponding path.
+// The cookie is cleared by setting the expiration date to 1970-01-01.
 // Note that browsers *may* be configured to not delete the cookie.
 func ClearCookie(w http.ResponseWriter, cookieName, cookiePath string) {
 	ignoredContent := "SNUSNU" // random string
@@ -81,7 +83,7 @@ func ClearCookie(w http.ResponseWriter, cookieName, cookiePath string) {
 	SetHeader(w, "Set-Cookie", cookie, true)
 }
 
-// Set a secure cookie with an explicit path.
+// SetSecureCookiePath creates and sets a secure cookie with an explicit path.
 // age is the time-to-live, in seconds (0 means forever).
 func SetSecureCookiePath(w http.ResponseWriter, name, val string, age int64, path string, cookieSecret string) {
 	// base64 encode the value
@@ -95,13 +97,13 @@ func SetSecureCookiePath(w http.ResponseWriter, name, val string, age int64, pat
 	vs := buf.String()
 	vb := buf.Bytes()
 	timestamp := strconv.FormatInt(time.Now().Unix(), 10)
-	sig := CookieSig(cookieSecret, vb, timestamp)
+	sig := Signature(cookieSecret, vb, timestamp)
 	cookie := strings.Join([]string{vs, timestamp, sig}, "|")
 	SetCookiePath(w, name, cookie, age, path)
 }
 
-// Get the cookie signature
-func CookieSig(key string, val []byte, timestamp string) string {
+// Signature retrieves the cookie signature
+func Signature(key string, val []byte, timestamp string) string {
 	hm := hmac.New(sha1.New, []byte(key))
 
 	hm.Write(val)
@@ -111,7 +113,7 @@ func CookieSig(key string, val []byte, timestamp string) string {
 	return hex
 }
 
-// Used for setting cookies in the HTTP header
+// SetHeader sets cookies in the HTTP header
 func SetHeader(w http.ResponseWriter, hdr, val string, unique bool) {
 	if unique {
 		w.Header().Set(hdr, val)
