@@ -80,7 +80,7 @@ func TestSetSecureCookiePath(t *testing.T) {
 
 	for _, test := range tests {
 		handler := func(w http.ResponseWriter, r *http.Request) {
-			SetSecureCookiePath(w, test.name, test.value, test.age, test.path, test.secret, test.secure, test.httponly)
+			SetSecureCookiePathWithFlags(w, test.name, test.value, test.age, test.path, test.secret, test.secure, test.httponly)
 			io.WriteString(w, "testing..")
 		}
 

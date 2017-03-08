@@ -60,9 +60,13 @@ func SecureCookie(req *http.Request, name string, cookieSecret string) (string, 
 	return "", false
 }
 
-// SetCookiePath sets a cookie with an explicit path.
-// age is the time-to-live, in seconds (0 means forever).
-func SetCookiePath(w http.ResponseWriter, name, value string, age int64, path string, secure, httponly bool) {
+/*SetCookiePathWithFlags sets a cookie with an explicit path.
+ * age is the time-to-live, in seconds (0 means forever).
+ *
+ * The secure and httponly flags are documented here:
+ * https://golang.org/pkg/net/http/#Cookie
+ */
+func SetCookiePathWithFlags(w http.ResponseWriter, name, value string, age int64, path string, secure, httponly bool) {
 	var utctime time.Time
 	if age == 0 {
 		// 2^31 - 1 seconds (roughly 2038)
@@ -74,6 +78,12 @@ func SetCookiePath(w http.ResponseWriter, name, value string, age int64, path st
 	SetHeader(w, "Set-Cookie", cookie.String(), false)
 }
 
+// SetCookiePath sets a cookie with an explicit path.
+// age is the time-to-live, in seconds (0 means forever).
+func SetCookiePath(w http.ResponseWriter, name, value string, age int64, path string) {
+	SetCookiePathWithFlags(w, name, value, age, path, false, false)
+}
+
 // ClearCookie clears the cookie with the given cookie name and a corresponding path.
 // The cookie is cleared by setting the expiration date to 1970-01-01.
 // Note that browsers *may* be configured to not delete the cookie.
@@ -83,9 +93,13 @@ func ClearCookie(w http.ResponseWriter, cookieName, cookiePath string) {
 	SetHeader(w, "Set-Cookie", cookie, true)
 }
 
-// SetSecureCookiePath creates and sets a secure cookie with an explicit path.
-// age is the time-to-live, in seconds (0 means forever).
-func SetSecureCookiePath(w http.ResponseWriter, name, val string, age int64, path string, cookieSecret string, secure, httponly bool) {
+/*SetSecureCookiePathWithFlags creates and sets a secure cookie with an explicit path.
+ * age is the time-to-live, in seconds (0 means forever).
+ *
+ * The secure and httponly flags are documented here:
+ * https://golang.org/pkg/net/http/#Cookie
+ */
+func SetSecureCookiePathWithFlags(w http.ResponseWriter, name, val string, age int64, path string, cookieSecret string, secure, httponly bool) {
 	// base64 encode the value
 	if len(cookieSecret) == 0 {
 		log.Fatalln("Secret Key for secure cookies has not been set. Please use a non-empty secret.")
@@ -99,7 +113,13 @@ func SetSecureCookiePath(w http.ResponseWriter, name, val string, age int64, pat
 	timestamp := strconv.FormatInt(time.Now().Unix(), 10)
 	sig := Signature(cookieSecret, vb, timestamp)
 	cookie := strings.Join([]string{vs, timestamp, sig}, "|")
-	SetCookiePath(w, name, cookie, age, path, secure, httponly)
+	SetCookiePathWithFlags(w, name, cookie, age, path, secure, httponly)
+}
+
+// SetSecureCookiePath creates and sets a secure cookie with an explicit path.
+// age is the time-to-live, in seconds (0 means forever).
+func SetSecureCookiePath(w http.ResponseWriter, name, val string, age int64, path string, cookieSecret string) {
+	SetSecureCookiePathWithFlags(w, name, val, age, path, cookieSecret, false, false)
 }
 
 // Signature retrieves the cookie signature
