@@ -61,7 +61,7 @@ func SecureCookie(req *http.Request, name string, cookieSecret string) (string, 
 
 // Set a cookie with an explicit path.
 // age is the time-to-live, in seconds (0 means forever).
-func SetCookiePath(w http.ResponseWriter, name, value string, age int64, path string) {
+func SetCookiePath(w http.ResponseWriter, name, value string, age int64, path string, secure, httponly bool) {
 	var utctime time.Time
 	if age == 0 {
 		// 2^31 - 1 seconds (roughly 2038)
@@ -69,7 +69,7 @@ func SetCookiePath(w http.ResponseWriter, name, value string, age int64, path st
 	} else {
 		utctime = time.Unix(time.Now().Unix()+age, 0)
 	}
-	cookie := http.Cookie{Name: name, Value: value, Expires: utctime, Path: path}
+	cookie := http.Cookie{Name: name, Value: value, Expires: utctime, Path: path, Secure: secure, HttpOnly: httponly}
 	SetHeader(w, "Set-Cookie", cookie.String(), false)
 }
 
@@ -83,7 +83,7 @@ func ClearCookie(w http.ResponseWriter, cookieName, cookiePath string) {
 
 // Set a secure cookie with an explicit path.
 // age is the time-to-live, in seconds (0 means forever).
-func SetSecureCookiePath(w http.ResponseWriter, name, val string, age int64, path string, cookieSecret string) {
+func SetSecureCookiePath(w http.ResponseWriter, name, val string, age int64, path string, cookieSecret string, secure, httponly bool) {
 	// base64 encode the value
 	if len(cookieSecret) == 0 {
 		log.Fatalln("Secret Key for secure cookies has not been set. Please use a non-empty secret.")
@@ -97,7 +97,7 @@ func SetSecureCookiePath(w http.ResponseWriter, name, val string, age int64, pat
 	timestamp := strconv.FormatInt(time.Now().Unix(), 10)
 	sig := CookieSig(cookieSecret, vb, timestamp)
 	cookie := strings.Join([]string{vs, timestamp, sig}, "|")
-	SetCookiePath(w, name, cookie, age, path)
+	SetCookiePath(w, name, cookie, age, path, secure, httponly)
 }
 
 // Get the cookie signature
