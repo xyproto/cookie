@@ -15,10 +15,12 @@ func RandomString(length int) string {
 	return string(b)
 }
 
-// RandomHumanFriendlyString generates a random, but human-friendly, string of
-// the given length. It should be possible to read out loud and send in an email
-// without problems. The string alternates between vowels and consontants.
-// Example output for lenght 10: ykyzexebub
+/*RandomHumanFriendlyString generates a random, but human-friendly, string of
+ * the given length. It should be possible to read out loud and send in an email
+ * without problems. The string alternates between vowels and consontants.
+ *
+ * Example output for length 10: ykyzexebub
+ */
 func RandomHumanFriendlyString(length int) string {
 	const (
 		vowels     = "aeiouy" // email+browsers didn't like "æøå" too much
