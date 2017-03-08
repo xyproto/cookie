@@ -40,7 +40,7 @@ type SetCookieTest struct {
 // SetSecureCookiePath can set cookies with different flags
 func TestSetSecureCookiePath(t *testing.T) {
 	tests := []SetCookieTest{
-		SetCookieTest{
+		{
 			name:     "username",
 			value:    "foo",
 			age:      int64(3600),
@@ -49,7 +49,7 @@ func TestSetSecureCookiePath(t *testing.T) {
 			secure:   false,
 			httponly: false,
 		},
-		SetCookieTest{
+		{
 			name:     "username",
 			value:    "foo",
 			age:      int64(3600),
@@ -58,7 +58,7 @@ func TestSetSecureCookiePath(t *testing.T) {
 			secure:   true,
 			httponly: false,
 		},
-		SetCookieTest{
+		{
 			name:     "username",
 			value:    "foo",
 			age:      int64(3600),
@@ -67,7 +67,7 @@ func TestSetSecureCookiePath(t *testing.T) {
 			secure:   false,
 			httponly: true,
 		},
-		SetCookieTest{
+		{
 			name:     "username",
 			value:    "foo",
 			age:      int64(3600),
