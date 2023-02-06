@@ -14,5 +14,5 @@ General information
 -------------------
 
 * Version: 2.2.1
-* License: MIT
+* License: BSD-3
 * Alexander F. Rødseth &lt;xyproto@archlinux.org&gt;
