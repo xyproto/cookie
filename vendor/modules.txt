@@ -1,3 +1,0 @@
-# github.com/xyproto/randomstring v1.0.5
-## explicit
-github.com/xyproto/randomstring
