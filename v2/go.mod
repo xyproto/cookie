@@ -1,4 +1,4 @@
-module github.com/xyproto/cookie
+module github.com/xyproto/cookie/v2
 
 go 1.16
 
