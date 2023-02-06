@@ -13,6 +13,6 @@ Related projects
 General information
 -------------------
 
-* Version: 2.2.2
+* Version: 2.2.3
 * License: BSD-3
 * Alexander F. Rødseth &lt;xyproto@archlinux.org&gt;
