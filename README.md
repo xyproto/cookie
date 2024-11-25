@@ -9,10 +9,11 @@ Related projects
 * [permissionbolt](https://github.com/xyproto/permissionbolt)
 * [permissionhstore](https://github.com/xyproto/permissionhstore)
 * [permissionsql](https://github.com/xyproto/permissionsql)
+* [permissionsqlite](github.com/terminar/permissionsqlite)
 
 General information
 -------------------
 
-* Version: 2.2.5
+* Version: 2.2.6
 * License: BSD-3
 * Alexander F. Rødseth &lt;xyproto@archlinux.org&gt;
