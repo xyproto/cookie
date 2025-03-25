@@ -5,7 +5,7 @@ Functions related to cookies.
 Related projects
 ----------------
 
-* [permissions2](https://github.com/xyproto/permissions2)
+* [permissions](https://github.com/xyproto/permissions)
 * [permissionbolt](https://github.com/xyproto/permissionbolt)
 * [permissionhstore](https://github.com/xyproto/permissionhstore)
 * [permissionsql](https://github.com/xyproto/permissionsql)
