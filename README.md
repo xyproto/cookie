@@ -1,4 +1,7 @@
-# Cookie [![GoDoc](https://godoc.org/github.com/xyproto/cookie?status.svg)](http://godoc.org/github.com/xyproto/cookie) [![Report Card](https://img.shields.io/badge/go_report-A+-brightgreen.svg?style=flat)](http://goreportcard.com/report/xyproto/cookie)
+# Cookie
+[![GoDoc](https://godoc.org/github.com/xyproto/cookie?status.svg)](http://godoc.org/github.com/xyproto/cookie)
+[![Report Card](https://img.shields.io/badge/go_report-A+-brightgreen.svg?style=flat)](http://goreportcard.com/report/xyproto/cookie)
+[![Build](https://github.com/xyproto/cookie/actions/workflows/build.yml/badge.svg)](https://github.com/xyproto/cookie/actions/workflows/build.yml)
 
 Functions related to cookies.
 
